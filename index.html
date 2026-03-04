@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemesanan Tiket Online - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <i class="fas fa-ticket-alt"></i>
+                <span>Pemesanan Tiket</span>
+            </div>
+            <div class="navbar-menu">
+                <a href="#" class="nav-link active" data-section="dashboard">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="#" class="nav-link" data-section="tickets">
+                    <i class="fas fa-list"></i> Daftar Tiket
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="page-header">
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Kelola pemesanan tiket Anda dengan mudah</p>
+                </div>
+                <button class="btn btn-primary btn-lg" id="openFormBtn">
+                    <i class="fas fa-plus"></i> Tambah Tiket Baru
+                </button>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalTickets">0</h3>
+                        <p>Total Tiket</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="availableTickets">0</h3>
+                        <p>Tiket Tersedia</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="bookedTickets">0</h3>
+                        <p>Tiket Dipesan</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalRevenue">Rp 0</h3>
+                        <p>Total Pendapatan</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Tickets -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2><i class="fas fa-history"></i> Tiket Terbaru</h2>
+                </div>
+                <div id="recentTicketsContainer" class="tickets-list">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>Belum ada data tiket</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tickets List Section -->
+        <section id="tickets" class="section">
+            <div class="page-header">
+                <div>
+                    <h1>Daftar Tiket</h1>
+                    <p>Kelola semua tiket di sistem</p>
+                </div>
+                <button class="btn btn-primary btn-lg" id="openFormBtn2">
+                    <i class="fas fa-plus"></i> Tambah Tiket Baru
+                </button>
+            </div>
+
+            <!-- Filter & Search -->
+            <div class="filter-section">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cari tiket (nama, rute, kode)...">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="semua">
+                        <i class="fas fa-filter"></i> Semua
+                    </button>
+                    <button class="filter-btn" data-filter="tersedia">
+                        <i class="fas fa-check"></i> Tersedia
+                    </button>
+                    <button class="filter-btn" data-filter="dipesan">
+                        <i class="fas fa-times"></i> Dipesan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tickets Grid -->
+            <div id="ticketsContainer" class="tickets-grid">
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>Belum ada data tiket</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal Form -->
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-ticket-alt"></i> <span id="formTitle">Tambah Tiket Baru</span></h2>
+                <button class="modal-close" id="closeFormBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form id="ticketForm" class="ticket-form">
+                <input type="hidden" id="ticketId">
+
+                <div class="form-group">
+                    <label for="kodeTiket">Kode Tiket</label>
+                    <input type="text" id="kodeTiket" placeholder="Contoh: TIK001" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="namaPenumpang">Nama Penumpang</label>
+                        <input type="text" id="namaPenumpang" placeholder="Masukkan nama" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rute">Rute</label>
+                        <input type="text" id="rute" placeholder="Contoh: Jakarta - Bandung" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tanggalBerangkat">Tanggal Berangkat</label>
+                        <input type="date" id="tanggalBerangkat" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kursi">Kursi</label>
+                        <input type="text" id="kursi" placeholder="Contoh: 1A" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="harga">Harga (Rp)</label>
+                        <input type="number" id="harga" placeholder="Masukkan harga" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" required>
+                            <option value="tersedia">Tersedia</option>
+                            <option value="dipesan">Dipesan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelFormBtn">Batal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> <span id="submitBtnText">Simpan</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-body">
+                <div class="delete-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <h2>Hapus Tiket?</h2>
+                <p>Apakah Anda yakin ingin menghapus tiket dengan kode <strong id="deleteTicketCode"></strong>?</p>
+                <p class="text-muted">Tindakan ini tidak dapat dibatalkan.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelDeleteBtn">Batal</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Memuat data...</p>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
